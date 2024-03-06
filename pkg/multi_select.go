@@ -124,7 +124,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m Model) View() string {
 	// The header
-	s := "\033[96m⚡⚡Select the workflows/jobs that you want to fasten using Bolt?\033[0m⚡⚡\n"
+	s := "\033[96m⚡⚡Select the workflows/jobs that you want to fasten using Bolt?⚡⚡\033[0m\n"
 	s += "--------------------------------------------------------------------------------\n"
 	s += "\033[33mUse the arrow keys: up(↑) down(↓) to move and <space> to select.\033[0m\n"
 	s += "\033[33mUse <ctrl+a> to toggle all.\033[0m\n\n"

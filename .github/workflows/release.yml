@@ -15,7 +15,6 @@ jobs:
       contents: write
       packages: write
       id-token: write
-      # issues: write
     runs-on: ubuntu-latest
     steps:
       - name: Setup Bolt
@@ -38,10 +37,6 @@ jobs:
           go-version: 1.21.4
       - name: Setup Cosign
         uses: sigstore/cosign-installer@1fc5bd396d372bee37d608f955b336615edf79c8 # sigstore/cosign-installer@v3.2.0 | main
-      - name: Set version to github tag name
-        uses: mikefarah/yq@9adde1ac14bb283b8955d2b0d567bcaf3c69e639 # mikefarah/yq@v4.42.1 | v4
-        with:
-          cmd: yq -i '.version |= "${{ github.ref_name }}"' .goreleaser.yml
       - name: Run goreleaser
         uses: goreleaser/goreleaser-action@7ec5c2b0c6cdda6e8bbb49444bc797dd33d74dd8 # goreleaser/goreleaser-action@v5 | v5.0.0
         with:

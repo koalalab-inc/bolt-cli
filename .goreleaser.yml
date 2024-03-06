@@ -7,24 +7,21 @@
 # vim: set ts=2 sw=2 tw=0 fo=cnqoj
 
 # This will replaced by tag reference during release
-version: latest
-
+version: v0.0.2
 before:
   hooks:
     # You may remove this if you don't use go modules.
     - go mod tidy
     # you may remove this if you don't need go generate
     - go generate ./...
-
 signs:
-- cmd: cosign
-  args:
-  - "sign-blob"
-  - "--bundle=${signature}"
-  - "${artifact}"
-  - "--yes" # needed on cosign 2.0.0+
-  artifacts: all
-
+  - cmd: cosign
+    args:
+      - "sign-blob"
+      - "--bundle=${signature}"
+      - "${artifact}"
+      - "--yes" # needed on cosign 2.0.0+
+    artifacts: all
 builds:
   - env:
       - CGO_ENABLED=0
@@ -32,78 +29,67 @@ builds:
     goos:
       - linux
       - darwin
-
 docker_signs:
-- cmd: cosign
-  args:
-  - "sign"
-  - ${artifact}
-  - "--yes" # needed on cosign 2.0.0+
-  artifacts: all
-
+  - cmd: cosign
+    args:
+      - "sign"
+      - ${artifact}
+      - "--yes" # needed on cosign 2.0.0+
+    artifacts: all
 dockers:
-- image_templates:
-  - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-amd64"
-  - "ghcr.io/koalalab-inc/bolt-cli:amd64"
-  use: buildx
-  dockerfile: Dockerfile
-  build_flag_templates:
-  - "--platform=linux/amd64"
-- image_templates:
-  - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-arm64"
-  - "ghcr.io/koalalab-inc/bolt-cli:arm64"
-  use: buildx
-  goarch: arm64
-  dockerfile: Dockerfile
-  build_flag_templates:
-  - "--platform=linux/arm64/v8"
-- image_templates:
-  - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-armv7"
-  - "ghcr.io/koalalab-inc/bolt-cli:armv7"
-  use: buildx
-  goarch: arm64
-  dockerfile: Dockerfile
-  build_flag_templates:
-  - "--platform=linux/arm/v7"
-- image_templates:
-  - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-s390x"
-  - "ghcr.io/koalalab-inc/bolt-cli:s390x"
-  use: buildx
-  goarch: arm64
-  dockerfile: Dockerfile
-  build_flag_templates:
-  - "--platform=linux/s390x"
-- image_templates:
-  - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-ppc64le"
-  - "ghcr.io/koalalab-inc/bolt-cli:ppc64le"
-  use: buildx
-  goarch: arm64
-  dockerfile: Dockerfile
-  build_flag_templates:
-  - "--platform=linux/ppc64le"
+  - image_templates:
+      - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-amd64"
+      - "ghcr.io/koalalab-inc/bolt-cli:amd64"
+    use: buildx
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/amd64"
+  - image_templates:
+      - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-arm64"
+      - "ghcr.io/koalalab-inc/bolt-cli:arm64"
+    use: buildx
+    goarch: arm64
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/arm64/v8"
+  - image_templates:
+      - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-armv7"
+      - "ghcr.io/koalalab-inc/bolt-cli:armv7"
+    use: buildx
+    goarch: arm64
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/arm/v7"
+  - image_templates:
+      - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-s390x"
+      - "ghcr.io/koalalab-inc/bolt-cli:s390x"
+    use: buildx
+    goarch: arm64
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/s390x"
+  - image_templates:
+      - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-ppc64le"
+      - "ghcr.io/koalalab-inc/bolt-cli:ppc64le"
+    use: buildx
+    goarch: arm64
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/ppc64le"
 docker_manifests:
-- name_template: "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}"
-  image_templates:
-  - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-amd64"
-  - "ghcr.io/koalalab-inc/bolt-cli:amd64"
-  - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-arm64"
-  - "ghcr.io/koalalab-inc/bolt-cli:arm64"
-  - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-armv7"
-  - "ghcr.io/koalalab-inc/bolt-cli:armv7"
-
-
-
+  - name_template: "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}"
+    image_templates:
+      - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-amd64"
+      - "ghcr.io/koalalab-inc/bolt-cli:amd64"
+      - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-arm64"
+      - "ghcr.io/koalalab-inc/bolt-cli:arm64"
+      - "ghcr.io/koalalab-inc/bolt-cli:{{ .Version }}-armv7"
+      - "ghcr.io/koalalab-inc/bolt-cli:armv7"
 archives:
   - format: tar.gz
     # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
-      {{ .ProjectName }}_
-      {{- title .Os }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
-      {{- else }}{{ .Arch }}{{ end }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}
-
+      {{ .ProjectName }}_ {{- title .Os }}_ {{- if eq .Arch "amd64" }}x86_64 {{- else if eq .Arch "386" }}i386 {{- else }}{{ .Arch }}{{ end }} {{- if .Arm }}v{{ .Arm }}{{ end }}
 changelog:
   sort: asc
   filters:

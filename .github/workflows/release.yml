@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup Bolt
-        uses: koalalab-inc/bolt@v1
+        uses: koalalab-inc/bolt@98e1363730b62fc8d3aa5a9a8e5605f875573851 # koalalab-inc/bolt@v1 | v1.0.0
       - name: Checkout
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # actions/checkout@v3 | v3.6.0
         with:
@@ -27,7 +27,7 @@ jobs:
       - name: Fetch tags
         run: git fetch --force --tags
       - name: GHCR login
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # docker/login-action@v3 | v3.0.0
         with:
             registry: ghcr.io
             username: ${{ github.actor }}
@@ -38,11 +38,10 @@ jobs:
           go-version: 1.21.4
       - name: Setup Cosign
         uses: sigstore/cosign-installer@1fc5bd396d372bee37d608f955b336615edf79c8 # sigstore/cosign-installer@v3.2.0 | main
-      # More assembly might be required: Docker logins, GPG, etc.
-      # It all depends on your needs.
-      - name: Populate tag reference in goreleaser config
-        run: |
-          sed -i "s/version: latest/tag: ${{ github.ref }}" .goreleaser.yml
+      - name: Set version to github tag name
+        uses: mikefarah/yq@9adde1ac14bb283b8955d2b0d567bcaf3c69e639 # mikefarah/yq@v4.42.1 | v4
+        with:
+          cmd: yq -i '.version |= "${{ github.ref_name }}"' .goreleaser.yml
       - name: Run goreleaser
         uses: goreleaser/goreleaser-action@7ec5c2b0c6cdda6e8bbb49444bc797dd33d74dd8 # goreleaser/goreleaser-action@v5 | v5.0.0
         with:

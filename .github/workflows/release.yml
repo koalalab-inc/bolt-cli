@@ -40,6 +40,9 @@ jobs:
         uses: sigstore/cosign-installer@1fc5bd396d372bee37d608f955b336615edf79c8 # sigstore/cosign-installer@v3.2.0 | main
       # More assembly might be required: Docker logins, GPG, etc.
       # It all depends on your needs.
+      - name: Populate tag reference in goreleaser config
+        run: |
+          sed -i "s/version: latest/tag: ${{ github.ref }}" .goreleaser.yml
       - name: Run goreleaser
         uses: goreleaser/goreleaser-action@7ec5c2b0c6cdda6e8bbb49444bc797dd33d74dd8 # goreleaser/goreleaser-action@v5 | v5.0.0
         with:

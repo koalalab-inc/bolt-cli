@@ -48,13 +48,13 @@ Once you have instrumented the workflows in your repository, you can check the e
 
 ## Installation:
 * #### Docker Image
-     Get the version from the releases section and run the following command(Replace 0.0.4 with the version you want to use)
+     Get the version from the releases section and run the following command(Replace 0.0.5 with the version you want to use)
     ```bash
-    docker run -v "$(pwd):/app" -w /app -u $(id -u):$(id -g) ghcr.io/koalalab-inc/bolt-cli:0.0.4 scan 
+    docker run -v "$(pwd):/app" -w /app -u $(id -u):$(id -g) -it ghcr.io/koalalab-inc/bolt-cli:0.0.5 scan 
     ```
     You can alias this command to `bolt-cli` for ease of use
     ```bash
-    alias bolt-cli='docker run -v "$(pwd):/app" -w /app -u $(id -u):$(id -g) ghcr.io/koalalab-inc/bolt-cli:0.0.4'
+    alias bolt-cli='docker run -v "$(pwd):/app" -w /app -u $(id -u):$(id -g) -it ghcr.io/koalalab-inc/bolt-cli:0.0.5'
     ```
     Now you can use `bolt-cli` as a command line tool
     ```bash
@@ -67,12 +67,12 @@ Once you have instrumented the workflows in your repository, you can check the e
     Get the version from the releases section and run the following command(Replace version, os and arch as per your system)<br />
     Following command will download the archive containing binary for MacOS x86_64
     ```bash
-    curl -fsSL https://github.com/koalalab-inc/bolt-cli/releases/download/v0.0.4/bolt-cli_Darwin_x86_64.tar.gz 
+    curl -fsSL https://github.com/koalalab-inc/bolt-cli/releases/download/v0.0.5/bolt-cli_Darwin_x86_64.tar.gz 
     ```
 
     To download and place the binary in `/usr/local/bin` run the following command
     ```bash
-    curl -fsSL https://github.com/koalalab-inc/bolt-cli/releases/download/v0.0.4/bolt-cli_Darwin_x86_64.tar.gz | tar -xz -C "/usr/local/bin/" "bolt-cli"
+    curl -fsSL https://github.com/koalalab-inc/bolt-cli/releases/download/v0.0.5/bolt-cli_Darwin_x86_64.tar.gz | tar -xz -C "/usr/local/bin/" "bolt-cli"
     ```
 
     On MacOS, if you get an error like `Cannot Verify That This App is Free from Malware` Or `This app is from an unidentified developer`, you can run the following command to allow the binary to run
